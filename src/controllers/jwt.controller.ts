@@ -7,11 +7,12 @@ import {
   UseGuards,
   Request,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "@jwt/services";
 import { RegisterUserDto, LoginDto } from "@jwt/dtos";
 import { AuthGuard } from "@nestjs/passport";
 import { genSaltSync, hashSync } from "bcryptjs";
+import { JwtAuthGuard, LocalGuard } from "@jwt/auth";
 
 @ApiTags("jwt")
 @Controller()
@@ -32,8 +33,10 @@ export class AppController {
     return await this.authService.login(data);
   }
 
-  @Put("update")
+  @ApiBearerAuth()
+  @UseGuards(LocalGuard)
+  @Get("check-token")
   async updateInfo(): Promise<any> {
-    return "example use access token to update profile";
+    return "Passed access Token !";
   }
 }
