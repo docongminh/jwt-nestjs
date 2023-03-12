@@ -36,7 +36,7 @@ export class AppController {
   @ApiBearerAuth()
   @UseGuards(LocalGuard)
   @Get("check-token")
-  async updateInfo(): Promise<any> {
+  async checkToken(): Promise<any> {
     return "Passed access Token !";
   }
 }
